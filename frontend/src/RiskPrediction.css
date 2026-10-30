@@ -1,0 +1,943 @@
+
+/* =========================================
+   SAFE ROUTE - RISK PREDICTION
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #eef3f8;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #172033;
+}
+
+.risk-page {
+  min-height: 100vh;
+  background: #eef3f8;
+}
+
+/* =========================================
+   TOP NAVBAR
+========================================= */
+
+.risk-navbar {
+  width: 100%;
+  min-height: 80px;
+  height: 80px;
+  padding: 0 40px;
+  background: #080d1c;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* BRAND */
+
+.risk-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 163px;
+  flex-shrink: 0;
+
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #07111e;
+  background: #08b5d3;
+  border-radius: 8px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brand-text strong {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.brand-text small {
+  margin-top: 5px;
+  color: #08b5d3;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* NAVIGATION - TEXT ONLY */
+
+.risk-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  gap: 3px;
+}
+
+.risk-nav-links a {
+  height: 100%;
+  padding: 0 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  color: #9ba6b8;
+  background: transparent;
+
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+
+  flex-shrink: 1;
+  transition: color 0.2s ease;
+}
+
+.risk-nav-links a svg {
+  display: none;
+}
+
+.risk-nav-links a:hover {
+  color: #ffffff;
+}
+
+.risk-nav-links a.active {
+  color: #00c5e8;
+  font-weight: 700;
+}
+
+.risk-nav-links a.active::after {
+  content: "";
+  position: absolute;
+
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+
+  height: 3px;
+  background: #00c5e8;
+}
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.risk-content {
+  width: calc(100% - 64px);
+  max-width: 1500px;
+  margin: 32px auto 40px;
+
+  display: grid;
+  grid-template-columns: 480px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* =========================================
+   PREDICTOR METRICS CARD
+========================================= */
+
+.metrics-card {
+  width: 100%;
+  min-width: 0;
+
+  padding: 24px;
+
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 15px;
+}
+
+.metrics-card h2 {
+  margin: 0 0 20px;
+
+  color: #172033;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* FORM FIELDS */
+
+.metric-field {
+  margin-bottom: 17px;
+}
+
+.metric-field label {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #60728d;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.metric-field select {
+  width: 100%;
+  height: 41px;
+
+  padding: 0 11px;
+
+  background: #f7f9fc;
+  border: 1px solid #dbe3ec;
+  border-radius: 8px;
+
+  color: #172033;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+
+  outline: none;
+  cursor: pointer;
+}
+
+.metric-field select:focus {
+  border-color: #08b5d3;
+  box-shadow: 0 0 0 3px rgba(8, 181, 211, 0.12);
+}
+
+/* EXECUTE BUTTON */
+
+.execute-button {
+  width: 100%;
+  height: 49px;
+  margin-top: 2px;
+
+  border: 1px solid #080d1c;
+  border-radius: 8px;
+
+  background: #080d1c;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.execute-button:hover {
+  background: #151c2d;
+}
+
+.execute-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ERROR AND STATUS MESSAGES */
+
+.risk-error,
+.risk-message {
+  margin: 14px 0 0;
+  padding: 11px 13px;
+
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.risk-error {
+  color: #b4233d;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+}
+
+.risk-message {
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+/* =========================================
+   DIAGNOSTIC AREA
+========================================= */
+
+.diagnostic-area {
+  min-width: 0;
+}
+
+/* =========================================
+   MAIN RESULT CARD
+========================================= */
+
+.diagnostic-card {
+  min-height: 184px;
+  width: 100%;
+
+  padding: 25px 30px;
+
+  display: flex;
+  align-items: center;
+  gap: 32px;
+
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 15px;
+}
+
+/* SCORE CIRCLE */
+
+.score-circle {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: 4px solid #f23d61;
+  border-radius: 50%;
+
+  background: #fff5f6;
+  color: #f23d61;
+}
+
+.score-circle strong {
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.score-circle span {
+  margin-top: 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* SCORE COLORS */
+
+.score-circle.low {
+  border-color: #16a34a;
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.score-circle.moderate {
+  border-color: #e6a000;
+  background: #fffbeb;
+  color: #b77900;
+}
+
+.score-circle.high {
+  border-color: #f97316;
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.score-circle.extreme,
+.score-circle.demo {
+  border-color: #f23d61;
+  background: #fff5f6;
+  color: #f23d61;
+}
+
+/* DIAGNOSTIC DESCRIPTION */
+
+.diagnostic-description {
+  min-width: 0;
+}
+
+.classification {
+  display: inline-block;
+  padding: 5px 10px;
+
+  border-radius: 5px;
+
+  background: #fff1f2;
+  color: #f23d61;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.classification.low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.classification.moderate {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.classification.high {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.classification.extreme,
+.classification.demo {
+  background: #fff1f2;
+  color: #f23d61;
+}
+
+.diagnostic-description h1 {
+  margin: 10px 0 7px;
+
+  color: #172033;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.diagnostic-description p {
+  margin: 0;
+  max-width: 650px;
+
+  color: #60728d;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* =========================================
+   BACKEND PREDICTION DETAILS
+========================================= */
+
+.prediction-details {
+  margin-top: 24px;
+  padding: 22px;
+
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 15px;
+}
+
+.prediction-details h3 {
+  margin: 0 0 18px;
+  color: #172033;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.details-grid p {
+  margin: 0;
+  min-height: 55px;
+  padding: 11px 13px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  background: #f7f9fc;
+  border: 1px solid #dbe3ec;
+  border-radius: 8px;
+}
+
+.details-grid strong {
+  color: #60728d;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.details-grid span {
+  color: #172033;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.explanation {
+  margin: 15px 0 0;
+  color: #60728d;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* =========================================
+   LOWER PANELS
+========================================= */
+
+.risk-lower-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+  align-items: start;
+}
+
+/* =========================================
+   IMPACT FACTORS
+========================================= */
+
+.impact-card,
+.directives-card {
+  min-width: 0;
+  padding: 23px;
+
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 15px;
+}
+
+.impact-card h2,
+.directives-card h2 {
+  margin: 0 0 20px;
+
+  color: #172033;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.impact-item {
+  margin-bottom: 17px;
+}
+
+.impact-item:last-of-type {
+  margin-bottom: 0;
+}
+
+.impact-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  margin-bottom: 7px;
+}
+
+.impact-heading span {
+  color: #172033;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.impact-heading strong {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.red-text {
+  color: #f23d61;
+}
+
+.orange-text {
+  color: #f59e0b;
+}
+
+.blue-text {
+  color: #08b5d3;
+}
+
+/* IMPACT BARS */
+
+.impact-track {
+  width: 100%;
+  height: 8px;
+
+  overflow: hidden;
+
+  background: #edf1f6;
+  border-radius: 20px;
+}
+
+.impact-fill {
+  height: 100%;
+  border-radius: 20px;
+}
+
+.red-fill {
+  background: #f23d61;
+}
+
+.orange-fill {
+  background: #f59e0b;
+}
+
+.blue-fill {
+  background: #08b5d3;
+}
+
+.factor-note {
+  margin: 17px 0 0;
+  color: #8290a5;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* =========================================
+   ROUTE DIRECTIVES
+========================================= */
+
+.directive-button {
+  width: 100%;
+  min-height: 61px;
+  margin-bottom: 14px;
+  padding: 12px 13px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+
+  background: #f7f9fc;
+  border: 1px solid #dbe3ec;
+  border-radius: 8px;
+
+  text-align: left;
+  font-family: inherit;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.directive-button:last-child {
+  margin-bottom: 0;
+}
+
+.directive-button:hover {
+  background: #edf3f8;
+}
+
+.directive-button strong {
+  color: #172033;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.directive-button span {
+  color: #60728d;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.dark-directive {
+  background: #080d1c;
+  border-color: #080d1c;
+}
+
+.dark-directive:hover {
+  background: #151c2d;
+}
+
+.dark-directive strong {
+  color: #ffffff;
+}
+
+.dark-directive span {
+  color: #08b5d3;
+}
+
+/* =========================================
+   PREDICTION HISTORY
+========================================= */
+
+.history-card {
+  width: 100%;
+  min-width: 0;
+  margin-top: 24px;
+  padding: 24px;
+
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 15px;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 20px;
+}
+
+.history-header h2 {
+  margin: 0 0 6px;
+
+  color: #172033;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.history-header p {
+  margin: 0;
+
+  color: #60728d;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.history-refresh {
+  min-height: 38px;
+  padding: 0 16px;
+
+  border: 1px solid #080d1c;
+  border-radius: 8px;
+
+  background: #080d1c;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.history-refresh:hover {
+  background: #151c2d;
+}
+
+.history-refresh:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.history-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 12px;
+}
+
+.history-table th {
+  padding: 13px 12px;
+
+  background: #f1f5f9;
+  color: #60728d;
+
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.history-table td {
+  padding: 14px 12px;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  color: #334155;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.history-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.history-table td strong {
+  color: #172033;
+  font-weight: 700;
+}
+
+/* HISTORY CLASSIFICATION BADGES */
+
+.history-badge {
+  display: inline-block;
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.history-badge.low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.history-badge.moderate {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.history-badge.high {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.history-badge.extreme {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 1350px) {
+  .risk-navbar {
+    padding: 0 22px;
+    gap: 12px;
+  }
+
+  .risk-brand {
+    min-width: 150px;
+  }
+
+  .risk-nav-links a {
+    padding: 0 6px;
+    font-size: 11px;
+  }
+
+  .risk-content {
+    grid-template-columns: 420px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1100px) {
+  .risk-navbar {
+    height: auto;
+    min-height: 80px;
+    padding: 14px 20px;
+    flex-wrap: wrap;
+  }
+
+  .risk-nav-links {
+    order: 3;
+    flex: 0 0 100%;
+    height: 42px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .risk-nav-links a {
+    height: 42px;
+    padding: 0 12px;
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .risk-content {
+    width: calc(100% - 40px);
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-card {
+    max-width: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .risk-navbar {
+    padding: 13px 15px;
+  }
+
+  .risk-brand {
+    min-width: auto;
+  }
+
+  .brand-text strong {
+    font-size: 16px;
+  }
+
+  .risk-content {
+    width: calc(100% - 24px);
+    margin: 18px auto;
+    gap: 16px;
+  }
+
+  .diagnostic-card {
+    padding: 20px;
+    gap: 18px;
+  }
+
+  .score-circle {
+    width: 95px;
+    height: 95px;
+  }
+
+  .score-circle strong {
+    font-size: 30px;
+  }
+
+  .diagnostic-description h1 {
+    font-size: 17px;
+  }
+
+  .diagnostic-description p {
+    font-size: 12px;
+  }
+
+  .risk-lower-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .history-card {
+    padding: 16px;
+  }
+
+  .history-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .history-table {
+    min-width: 650px;
+  }
+}
+
+@media (max-width: 500px) {
+  .diagnostic-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-card,
+  .impact-card,
+  .directives-card {
+    padding: 18px;
+  }
+
+  .diagnostic-description h1 {
+    font-size: 16px;
+  }
+
+  .history-refresh {
+    width: 100%;
+  }
+}
