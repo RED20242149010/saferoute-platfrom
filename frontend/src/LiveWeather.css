@@ -1,0 +1,267 @@
+
+.weather-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 24px;
+  color: #e5edf7;
+  background: #111c2e;
+  border: 1px solid #293950;
+  border-radius: 18px;
+  text-align: left;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font-family: inherit;
+}
+
+.weather-card * {
+  box-sizing: border-box;
+}
+
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.weather-heading {
+  min-width: 0;
+}
+
+.weather-eyebrow {
+  margin: 0 0 6px;
+  color: #38bdf8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.weather-card h2 {
+  margin: 0 0 8px;
+  color: #f8fafc;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.weather-source {
+  margin: 0;
+  color: #a8b7cc;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.weather-refresh {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #3b506c;
+  border-radius: 10px;
+  background: #23334b;
+  color: #f8fafc;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+  transition: background 0.2s ease;
+}
+
+.weather-refresh:hover {
+  background: #344966;
+}
+
+.weather-refresh:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.weather-loading {
+  margin: 18px 0 0;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 26px 0 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #293950;
+}
+
+.weather-temperature-block {
+  min-width: 0;
+}
+
+.weather-temperature {
+  display: block;
+  color: #f8fafc;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.weather-feels-like {
+  margin: 8px 0 0;
+  color: #b7c5d8;
+  font-size: 14px;
+}
+
+.weather-condition {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.weather-condition-icon {
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.weather-condition strong {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.weather-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.weather-metric {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  min-height: 88px;
+  padding: 15px;
+  border: 1px solid #293950;
+  border-radius: 12px;
+  background: #19273b;
+}
+
+.weather-metric span {
+  color: #a8b7cc;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.weather-metric strong {
+  color: #f8fafc;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.rain-alert {
+  margin-top: 18px;
+  padding: 15px;
+  border: 1px solid #b7791f;
+  border-radius: 12px;
+  background: #352817;
+  color: #fcd34d;
+}
+
+.rain-alert strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.rain-alert p {
+  margin: 7px 0 0;
+  color: #fef3c7;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.weather-footer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #293950;
+}
+
+.weather-timestamp,
+.weather-updated {
+  margin: 4px 0;
+  color: #a8b7cc;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.weather-error {
+  margin: 14px 0;
+  padding: 12px;
+  border: 1px solid #7f1d1d;
+  border-radius: 10px;
+  background: #351b25;
+  color: #fca5a5;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 700px) {
+  .weather-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .weather-card h2 {
+    font-size: 20px;
+  }
+
+  .weather-main {
+    align-items: flex-start;
+    gap: 16px;
+    margin: 20px 0;
+    padding-bottom: 18px;
+  }
+
+  .weather-temperature {
+    font-size: 34px;
+  }
+
+  .weather-metrics {
+    gap: 9px;
+  }
+
+  .weather-metric {
+    min-height: 78px;
+    padding: 11px;
+  }
+
+  .weather-metric span {
+    font-size: 12px;
+  }
+
+  .weather-metric strong {
+    font-size: 17px;
+  }
+
+  .weather-refresh {
+    width: 36px;
+    height: 36px;
+  }
+}
